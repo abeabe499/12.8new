@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="race"><head><base target="_top"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8b1a1a">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>TWELVOLNA.EIGHTHEREALIS</title>
 <style>
 :root{--bg:#f6f7fc;--ink:#1f2540;--mut:#7b819b;--b:#6aa5ff;--l:#b8a6ff;--p:#ff8fb1;--r:#b3221f;--ln:#e8eaf4;--sh:0 10px 30px rgba(60,70,140,.09)}
@@ -477,7 +483,7 @@ function toggleTheme(){var e=document.documentElement,g=e.getAttribute('data-the
 (function(){try{if(localStorage.getItem('tw_theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(x){}})();
 function pgProfil(){var u=S.user;
  return ph('👤','Profil','Data akunmu')+card('<div style="display:flex;justify-content:center;margin-bottom:12px">'+avHtml(104,1)+'</div><input id="pf" type="file" accept="image/*" class="hidden" onchange="onProf(this)"><h3 style="text-align:center;font-size:18px">'+esc(u.nama)+'</h3><div style="margin-top:12px"><div class="ir"><span>Username</span><b>'+esc(u.username)+'</b></div><div class="ir"><span>Kelas</span><b>'+esc(u.kelas)+'</b></div><div class="ir"><span>Role</span><b>'+(u.role==='teacher'?'Guru':'Siswa')+'</b></div></div><button class="btn alt w" onclick="pickProf()">🖼 Ganti Foto Profil</button><button class="btn alt w" onclick="toggleTheme()">'+(document.documentElement.getAttribute('data-theme')==='race'?'☀️ Mode Terang':'🌙 Mode Gelap')+'</button>')+
- (isT()?'':'<div class="row"><button class="btn alt" onclick="go(\'riwayat\')">🕘 Riwayat</button><button class="btn alt" onclick="go(\'stat\')">📊 Statistik</button></div>')+'<button class="btn w" onclick="logout()">Logout</button>'}
+ (isT()?'':'<div class="row"><button class="btn alt" onclick="go(\'riwayat\')">🕘 Riwayat</button><button class="btn alt" onclick="go(\'stat\')">📊 Statistik</button></div>')+ntCard()+'<button class="btn w" onclick="logout()">Logout</button>'}
 
 /* ---------- Guru ---------- */
 function pgTDash(){return liveBar()+pgTDash0()+attnCard()+annForm()+quoteCard()}
@@ -794,4 +800,57 @@ document.addEventListener('DOMContentLoaded',function(){
    try{google.script.run.withSuccessHandler(function(r){if(bd)return;bd=true;fin(function(){if(r&&r.ok){S.user=r.user;S.token=r.token;S.dash=r.dash;$('splash').classList.add('hidden');enter()}else{try{localStorage.removeItem('tw_tk')}catch(e){}showLogin()}})}).withFailureHandler(function(){if(bd)return;bd=true;fin(showLogin)}).restoreSession(tk)}catch(e){bd=true;showLogin()}
    setTimeout(function(){if(!bd){bd=true;showLogin()}},25000)}
 });
-</script></body></html>
+</script><script>
+/* ===== Notifikasi (Firebase Cloud Messaging) ===== */
+var FB_CFG={
+  apiKey: "AIzaSyDlaQBRFHixcMaHp2R6r2n5O5O_4vvC2qs",
+  authDomain: "kelas128-fc182.firebaseapp.com",
+  projectId: "kelas128-fc182",
+  storageBucket: "kelas128-fc182.firebasestorage.app",
+  messagingSenderId: "13578218687",
+  appId: "1:13578218687:web:79e3c0ebef9eafc93daa0a"
+};
+var VAPID='BP88fH0bm6qhyRUQflCcstjPZfPkteeFrXZG20x4x3ApP2fOruqpAxLrFRqwrYeKYJRSp9YXKdncbw3btywdXeY';
+var FB_VER='10.12.2';
+function ntIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+function ntStandalone(){return (window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true}
+function ntOK(){return 'serviceWorker' in navigator&&'Notification' in window&&'PushManager' in window}
+function ntActive(){var a=false;try{a=localStorage.getItem('tw_nt')==='1'}catch(e){}return a&&ntOK()&&Notification.permission==='granted'}
+function ntLoad(cb){
+ if(window.firebase&&firebase.messaging)return cb();
+ var u=['https://www.gstatic.com/firebasejs/'+FB_VER+'/firebase-app-compat.js','https://www.gstatic.com/firebasejs/'+FB_VER+'/firebase-messaging-compat.js'],i=0;
+ (function nx(){if(i>=u.length)return cb();var sc=document.createElement('script');sc.src=u[i++];sc.onload=nx;sc.onerror=function(){toast('Gagal memuat layanan notifikasi. Cek internet.','e')};document.head.appendChild(sc)})();
+}
+function ntToken(cb,fail){
+ ntLoad(function(){
+  navigator.serviceWorker.register('firebase-messaging-sw.js').then(function(reg){
+   if(!firebase.apps.length)firebase.initializeApp(FB_CFG);
+   return navigator.serviceWorker.ready.then(function(){return firebase.messaging().getToken({vapidKey:VAPID,serviceWorkerRegistration:reg})});
+  }).then(function(t){if(!t)throw new Error('kosong');cb(t)}).catch(function(e){console.error(e);if(fail)fail(e)});
+ });
+}
+function ntOn(){
+ if(!ntOK()){toast(ntIOS()?'Di iPhone, tambahkan web ke Layar Utama dulu, lalu buka dari ikonnya.':'Browser ini belum mendukung notifikasi.','w');return}
+ if(VAPID.indexOf('PASTE_')===0){toast('Kunci notifikasi belum dipasang.','e');return}
+ Notification.requestPermission().then(function(p){
+  if(p!=='granted'){toast('Izin notifikasi ditolak. Aktifkan lewat pengaturan browser.','w');return}
+  ntToken(function(t){
+   call('daftarPerangkat',[{token:S.token,fcm:t}],'Mengaktifkan notifikasi...',function(){try{localStorage.setItem('tw_nt','1')}catch(e){}toast('Notifikasi aktif.');if(S.page==='profil')render()});
+  },function(){toast('Gagal mengaktifkan notifikasi. Coba lagi.','e')});
+ });
+}
+function ntAuto(){
+ if(!S.token||!ntActive()||VAPID.indexOf('PASTE_')===0)return;
+ ntToken(function(t){try{google.script.run.withSuccessHandler(function(){}).withFailureHandler(function(){}).daftarPerangkat({token:S.token,fcm:t})}catch(e){}},function(){});
+}
+function ntCard(){
+ var b;
+ if(ntActive())b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 0">Aktif di perangkat ini. Kamu akan dapat pengingat piket, jadwal, tugas besok, dan kas.</p><span class="bd g" style="margin-top:8px">Aktif</span>';
+ else if(ntIOS()&&!ntStandalone())b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 0">Di iPhone: buka web ini lewat Safari, ketuk tombol Bagikan, pilih <b>Tambah ke Layar Utama</b>, lalu buka dari ikon itu dan aktifkan notifikasi di sini.</p>';
+ else if(!ntOK())b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 0">Browser ini belum mendukung notifikasi. Coba Chrome di Android.</p>';
+ else b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 10px">Dapat pengingat piket, jadwal pelajaran, tugas besok, dan kas langsung di HP.</p><button class="btn w" onclick="ntOn()">🔔 Aktifkan Notifikasi</button>';
+ return card('<h3>🔔 Notifikasi</h3>'+b);
+}
+(function(){var e0=enter;enter=function(){e0.apply(this,arguments);setTimeout(ntAuto,1500)}})();
+</script>
+</body></html>
