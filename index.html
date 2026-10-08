@@ -846,13 +846,13 @@ function ntOn(){
    google.script.run.withSuccessHandler(function(r){
     if(r&&r.ok){try{localStorage.setItem('tw_nt','1')}catch(e){}NT_ERR='';toast('Notifikasi aktif.');ntShow()}
     else ntFail('Server menolak: '+((r&&r.msg)||'tanpa pesan')+' (cek bahwa deployment Apps Script sudah versi terbaru)')
-   }).withFailureHandler(function(e){ntFail('Tidak bisa menghubungi Apps Script: '+(e&&e.message||e)+' (cek GAS_URL dan akses Anyone)')}).daftarPerangkat({token:S.token,fcm:t});
+   }).withFailureHandler(function(e){ntFail('Tidak bisa menghubungi Apps Script: '+(e&&e.message||e)+' (cek GAS_URL dan akses Anyone)')}).daftarPerangkat({token:S.token,fcm:t,ua:navigator.userAgent});
   },function(e){ntFail('Gagal mengambil token: '+(e&&(e.code||e.name)||'')+' '+(e&&e.message||e))});
  }).catch(function(e){ntFail('Gagal meminta izin: '+(e&&e.message||e))});
 }
 function ntAuto(){
  if(!S.token||!ntActive()||VAPID.indexOf('PASTE_')===0)return;
- ntToken(function(t){try{google.script.run.withSuccessHandler(function(){}).withFailureHandler(function(){}).daftarPerangkat({token:S.token,fcm:t})}catch(e){}},function(){});
+ ntToken(function(t){try{google.script.run.withSuccessHandler(function(){}).withFailureHandler(function(){}).daftarPerangkat({token:S.token,fcm:t,ua:navigator.userAgent})}catch(e){}},function(){});
 }
 function ntCard(){
  var b;
