@@ -829,15 +829,26 @@ function ntToken(cb,fail){
   }).then(function(t){if(!t)throw new Error('kosong');cb(t)}).catch(function(e){console.error(e);if(fail)fail(e)});
  });
 }
+var NT_ERR='';
+function ntShow(){if(S.page==='profil')render()}
+function ntFail(m){NT_ERR=m;console.error('[notif]',m);toast(m,'e');ntShow()}
 function ntOn(){
- if(!ntOK()){toast(ntIOS()?'Di iPhone, tambahkan web ke Layar Utama dulu, lalu buka dari ikonnya.':'Browser ini belum mendukung notifikasi.','w');return}
- if(VAPID.indexOf('PASTE_')===0){toast('Kunci notifikasi belum dipasang.','e');return}
+ NT_ERR='';
+ if(!ntOK()){ntFail(ntIOS()?'Di iPhone, tambahkan web ke Layar Utama dulu, lalu buka dari ikonnya.':'Browser ini belum mendukung notifikasi.');return}
+ if(VAPID.indexOf('PASTE_')===0){ntFail('Kunci notifikasi belum dipasang.');return}
+ if(Notification.permission==='denied'){ntFail('Notifikasi diblokir browser. Klik ikon gembok di kolom alamat, ubah Notifikasi jadi Izinkan, lalu muat ulang halaman.');return}
+ toast('Meminta izin notifikasi...','w');
  Notification.requestPermission().then(function(p){
-  if(p!=='granted'){toast('Izin notifikasi ditolak. Aktifkan lewat pengaturan browser.','w');return}
+  if(p!=='granted'){ntFail('Izin notifikasi tidak diberikan ('+p+').');return}
+  toast('Izin diberikan. Menyambung ke layanan notifikasi...','w');
   ntToken(function(t){
-   call('daftarPerangkat',[{token:S.token,fcm:t}],'Mengaktifkan notifikasi...',function(){try{localStorage.setItem('tw_nt','1')}catch(e){}toast('Notifikasi aktif.');if(S.page==='profil')render()});
-  },function(){toast('Gagal mengaktifkan notifikasi. Coba lagi.','e')});
- });
+   toast('Menyimpan perangkat...','w');
+   google.script.run.withSuccessHandler(function(r){
+    if(r&&r.ok){try{localStorage.setItem('tw_nt','1')}catch(e){}NT_ERR='';toast('Notifikasi aktif.');ntShow()}
+    else ntFail('Server menolak: '+((r&&r.msg)||'tanpa pesan')+' (cek bahwa deployment Apps Script sudah versi terbaru)')
+   }).withFailureHandler(function(e){ntFail('Tidak bisa menghubungi Apps Script: '+(e&&e.message||e)+' (cek GAS_URL dan akses Anyone)')}).daftarPerangkat({token:S.token,fcm:t});
+  },function(e){ntFail('Gagal mengambil token: '+(e&&(e.code||e.name)||'')+' '+(e&&e.message||e))});
+ }).catch(function(e){ntFail('Gagal meminta izin: '+(e&&e.message||e))});
 }
 function ntAuto(){
  if(!S.token||!ntActive()||VAPID.indexOf('PASTE_')===0)return;
@@ -849,6 +860,7 @@ function ntCard(){
  else if(ntIOS()&&!ntStandalone())b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 0">Di iPhone: buka web ini lewat Safari, ketuk tombol Bagikan, pilih <b>Tambah ke Layar Utama</b>, lalu buka dari ikon itu dan aktifkan notifikasi di sini.</p>';
  else if(!ntOK())b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 0">Browser ini belum mendukung notifikasi. Coba Chrome di Android.</p>';
  else b='<p class="mut" style="font-size:13px;line-height:1.5;margin:6px 0 10px">Dapat pengingat piket, jadwal pelajaran, tugas besok, dan kas langsung di HP.</p><button class="btn w" onclick="ntOn()">🔔 Aktifkan Notifikasi</button>';
+ if(NT_ERR)b+='<p style="font-size:12.5px;line-height:1.5;margin:10px 0 0;color:#ff8a80;word-break:break-word">'+esc(NT_ERR)+'</p>';
  return card('<h3>🔔 Notifikasi</h3>'+b);
 }
 (function(){var e0=enter;enter=function(){e0.apply(this,arguments);setTimeout(ntAuto,1500)}})();
