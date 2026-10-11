@@ -877,8 +877,20 @@ function ntCard(){
 @keyframes br{50%{transform:scale(1.04);filter:drop-shadow(0 0 14px var(--b))}}
 @keyframes rl{from{transform:translateY(-70%);opacity:0;filter:blur(4px)}}
 @keyframes flt{50%{transform:translateY(-14px) rotate(12deg)}}
-@keyframes cf2{to{transform:rotateY(1800deg)}}
-@keyframes shk{25%{transform:rotate(-14deg) translateY(-6px)}75%{transform:rotate(14deg)}}
+/* rapi & simetris */
+:root{--ac:245,184,46}[data-theme=race][data-skin=aurora]{--ac:94,234,212}[data-theme=soft]{--ac:106,165,255}
+.tiles{grid-template-columns:repeat(2,minmax(0,1fr));margin-bottom:16px}.tiles+.card{margin-top:16px}
+.tile{display:flex;flex-direction:column;align-items:flex-start;background:linear-gradient(160deg,rgba(var(--ac),.12),var(--card) 62%)}
+.tile i{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:28px;background:rgba(var(--ac),.16);box-shadow:inset 0 0 0 1px rgba(var(--ac),.28)}.tile b{margin-top:10px}
+@media(min-width:700px){.tiles{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:699px){.tiles>.tile:last-child:nth-child(odd){grid-column:1/-1}}
+@media(max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid>.card:last-child:nth-child(odd){grid-column:1/-1}}
+.card{background-image:linear-gradient(160deg,rgba(var(--ac),.07),transparent 55%)}
+#toast{top:auto;bottom:100px}
+.fc{perspective:900px;height:170px;margin:14px 0 8px;cursor:pointer}
+.fci{position:relative;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,1.3,.5,1)}.fc.fl .fci{transform:rotateY(180deg)}
+.fcf,.fcb{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;display:grid;place-items:center;padding:18px;text-align:center;font-weight:700;font-size:18px;line-height:1.4}
+.fcf{background:linear-gradient(135deg,var(--b),var(--l));color:#fff;box-shadow:0 10px 24px rgba(var(--ac),.3)}.fcb{background:var(--card);border:2px solid var(--b);transform:rotateY(180deg)}
 /* animasi umum */
 .btn{position:relative;overflow:hidden}
 .btn:not(.alt):after{content:"";position:absolute;top:0;left:-70%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:sh 3.6s ease-in-out infinite;pointer-events:none}
@@ -898,8 +910,6 @@ function ntCard(){
 .slot.win{border-color:var(--b);animation:gl 1s ease 3}.slot.win .rl{animation:pp .6s ease;color:var(--b)}
 #view .kgx{animation:none}#view .kgx:not(.fin){opacity:.7;filter:blur(.6px)}#view .kgx.fin{animation:pop .5s ease backwards}
 /* koin & dadu */
-.coin{width:110px;height:110px;margin:14px auto;border-radius:50%;display:grid;place-items:center;font-size:46px;background:linear-gradient(135deg,#fde68a,#f59e0b);box-shadow:0 8px 20px rgba(0,0,0,.3)}.coin.go{animation:cf2 1.2s ease-out}
-.dices{display:flex;justify-content:center;gap:18px;margin:12px 0}.dice{font-size:72px;line-height:1}.dice.shk{animation:shk .16s linear infinite}
 /* kartu libur */
 .lib{position:relative;overflow:hidden;border-radius:26px;padding:26px 20px;text-align:center;color:#fff;margin-bottom:14px;background:linear-gradient(135deg,var(--g1),var(--g2));background-size:200% 200%;animation:au 8s ease infinite;box-shadow:0 14px 34px rgba(0,0,0,.3)}
 .lib h2{font-size:22px;margin:6px 0}.lib p{line-height:1.6;font-size:14.5px;opacity:.95}
@@ -911,12 +921,12 @@ function ntCard(){
 <script>
 /* ---- tema: biru jadi bawaan ---- */
 var TH={
-biru:{b:'#38bdf8',l:'#6366f1',p:'#22d3ee',card:'#10213f',ln:'#22396a',mut:'#9db2dc',bg:['#07122b','#0b2150','#0e3a73','#0a2447'],ck:'#38bdf8',ck2:'#1d4ed8',hero:'#0ea5e9,#2563eb 55%,#7c3aed',btn:'#38bdf8,#3b82f6 55%,#6366f1',g1:'56,189,248',g2:'99,102,241',nav:'16,33,63'},
-hijau:{b:'#34d399',l:'#10b981',p:'#a3e635',card:'#0f2a22',ln:'#1f4a3b',mut:'#9ccbb8',bg:['#04140e','#06281c','#0a3d2b','#072a1e'],ck:'#34d399',ck2:'#047857',hero:'#059669,#0d9488 55%,#65a30d',btn:'#34d399,#10b981 55%,#0d9488',g1:'52,211,153',g2:'163,230,53',nav:'15,42,34'},
-sunset:{b:'#fb923c',l:'#ec4899',p:'#fbbf24',card:'#2a1520',ln:'#4d2638',mut:'#d4a9b8',bg:['#1a0b14','#3a1230','#5a1b3a','#3a1a22'],ck:'#fb923c',ck2:'#be185d',hero:'#f97316,#ec4899 55%,#8b5cf6',btn:'#fb923c,#f43f5e 55%,#ec4899',g1:'251,146,60',g2:'236,72,153',nav:'42,21,32'}};
+biru:{b:'#38bdf8',l:'#818cf8',p:'#22d3ee',card:'#0f2347',ln:'#1f3d73',mut:'#a3b8e0',ac:'56,189,248',bg:['#050d1f','#0a1d46','#0c3366','#071a3a'],ck:'#38bdf8',ck2:'#1d4ed8',hero:'#0ea5e9,#3b82f6 50%,#8b5cf6',btn:'#38bdf8,#3b82f6 55%,#6366f1',g1:'56,189,248',g2:'129,140,248',nav:'15,35,71'},
+hijau:{b:'#4ade80',l:'#14b8a6',p:'#bef264',card:'#0e2a21',ln:'#1d4a39',mut:'#a3d4bf',ac:'74,222,128',bg:['#03120c','#06281c','#0a3d2b','#072a1e'],ck:'#4ade80',ck2:'#047857',hero:'#16a34a,#0d9488 55%,#84cc16',btn:'#4ade80,#22c55e 55%,#0d9488',g1:'74,222,128',g2:'190,242,100',nav:'14,42,33'},
+sunset:{b:'#fb923c',l:'#f472b6',p:'#fcd34d',card:'#2b1623',ln:'#53283e',mut:'#dcb0c2',ac:'251,146,60',bg:['#1a0b14','#3a1230','#5a1b3a','#3a1a22'],ck:'#fb923c',ck2:'#be185d',hero:'#f97316,#e11d48 55%,#9333ea',btn:'#fb923c,#f43f5e 55%,#ec4899',g1:'251,146,60',g2:'244,114,182',nav:'43,22,35'}};
 var TN={race:'Racing',biru:'Samudra',aurora:'Aurora',hijau:'Hutan',sunset:'Sunset',soft:'Soft'},TI={race:'🏁',biru:'🌊',aurora:'🌌',hijau:'🌿',sunset:'🌇',soft:'☁️'};
 (function(){var o='';for(var k in TH){var t=TH[k],P='[data-theme=race][data-skin='+k+']',g=t.bg;
-o+=P+'{--b:'+t.b+';--l:'+t.l+';--p:'+t.p+';--card:'+t.card+';--ln:'+t.ln+';--mut:'+t.mut+'}'
+o+=P+'{--b:'+t.b+';--l:'+t.l+';--p:'+t.p+';--card:'+t.card+';--ln:'+t.ln+';--mut:'+t.mut+';--ac:'+t.ac+'}'
 +P+' body{background:linear-gradient(120deg,'+g[0]+','+g[1]+','+g[2]+','+g[3]+','+g[0]+') 0 0/300% 300% fixed;animation:au 22s ease infinite}'
 +P+' body:before{background:radial-gradient(circle,rgba('+t.g1+',.35),transparent 70%)}'
 +P+' body:after{background:radial-gradient(circle,rgba('+t.g2+',.35),transparent 70%)}'
@@ -939,6 +949,8 @@ o+=P+'{--b:'+t.b+';--l:'+t.l+';--p:'+t.p+';--card:'+t.card+';--ln:'+t.ln+';--mut
 var st=document.createElement('style');st.textContent=o;document.head.appendChild(st)})();
 try{if(localStorage.getItem('sk4')){localStorage.setItem('sk','race');localStorage.removeItem('sk4')}}catch(e){}
 SK=['race','biru','aurora','hijau','sunset','soft'];
+var TC={race:'#7a1616',biru:'#0a1d46',aurora:'#13204a',hijau:'#06281c',sunset:'#3a1230',soft:'#f6f7fc'};
+var _ss=setSkin;setSkin=function(n){_ss(n);var m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute('content',TC[n]||'#120e18')};
 function pickSkin(n){setSkin(n);var b=$('tg');if(b)b.textContent=TI[n];toast('Tema: '+TN[n]);render()}
 theme=function(){pickSkin(SK[(SK.indexOf(S.sk||'race')+1)%SK.length])};
 var _pf=pgProfil;pgProfil=function(){var c=card('<h3>🎨 Tema Tampilan</h3><div class="chips">'+SK.map(function(k){return '<div class="chip'+(S.sk===k?' on':'')+'" onclick="pickSkin(\''+k+'\')">'+TI[k]+' '+TN[k]+'</div>'}).join('')+'</div>');return _pf().replace('<button class="btn w" onclick="logout()">Logout</button>',c+'<button class="btn w" onclick="logout()">Logout</button>')};
@@ -982,18 +994,24 @@ var t=setInterval(function(){var k=$('kg');if(!k){clearInterval(t);S.kb=0;return
 var _fd=fkDraw;fkDraw=function(){_fd();var r=$('fkr');if(r)r.classList.toggle('run',!!FK.run)};
 
 /* ---- fitur baru: Koin & Dadu, Hitung Mundur ---- */
-function pgKoin(){return back()+ph('🪙','Koin & Dadu','Serahkan keputusan ke semesta')+card('<h3>🪙 Lempar Koin</h3><div class="coin" id="coin">🪙</div><p class="acn" id="cr" style="min-height:40px;margin:4px 0">?</p><button class="btn w" onclick="flip()">Lempar!</button>')+card('<h3>🎲 Lempar Dadu</h3><div class="dices"><div class="dice" id="d1">⚀</div><div class="dice" id="d2">⚁</div></div><p class="acn" id="dr" style="min-height:40px;margin:4px 0">?</p><button class="btn w" onclick="roll()">Kocok!</button>')}
-function flip(){var c=$('coin'),r=$('cr');if(!c||S.cb)return;S.cb=1;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');r.textContent='...';
-setTimeout(function(){S.cb=0;var g=Math.random()<.5;c.textContent=g?'🦅':'🔢';r.textContent=g?'GAMBAR':'ANGKA';r.classList.remove('pop2');void r.offsetWidth;r.classList.add('pop2');confetti()},1200)}
-function roll(){if(S.db)return;S.db=1;var F='⚀⚁⚂⚃⚄⚅',a=$('d1'),b=$('d2'),r=$('dr'),i=0,t=setInterval(function(){if(!$('d1')){clearInterval(t);S.db=0;return}var x=Math.floor(Math.random()*6),y=Math.floor(Math.random()*6);a.textContent=F.charAt(x);b.textContent=F.charAt(y);a.classList.add('shk');b.classList.add('shk');
-if(++i>12){clearInterval(t);S.db=0;a.classList.remove('shk');b.classList.remove('shk');r.textContent='Total: '+(x+y+2);r.classList.remove('pop2');void r.offsetWidth;r.classList.add('pop2')}},80)}
+var fcGet=function(){try{return JSON.parse(localStorage.getItem('tw_fc')||'[]')}catch(e){return S.fc||[]}};
+function fcPut(a){S.fc=a;try{localStorage.setItem('tw_fc',JSON.stringify(a))}catch(e){}}
+function pgHafal(){var a=fcGet(),n=a.length,i=n?(S.fi||0)%n:0,c=a[i],dn=a.filter(function(x){return x.k}).length;
+return back()+ph('🧠','Kartu Hafalan','Soal di depan, jawaban di belakang')+(n?card('<div class="srow" style="margin:0"><span>Hafal</span><span>'+dn+'/'+n+'</span></div><div class="pr" style="margin:8px 0 4px"><i style="width:'+Math.round(dn*100/n)+'%"></i></div><div class="fc" onclick="this.classList.toggle(\'fl\')"><div class="fci"><div class="fcf">'+esc(c.q)+'</div><div class="fcb">'+esc(c.a)+'</div></div></div><p class="mut" style="text-align:center;font-size:12px;margin-bottom:10px">Ketuk kartu untuk membalik • kartu '+(i+1)+' dari '+n+'</p><div class="row"><button class="btn alt" onclick="fcMark(0)">✗ Belum</button><button class="btn" onclick="fcMark(1)">✓ Hafal</button></div><div class="row"><button class="btn alt sm" onclick="fcShuf()">🔀 Acak</button><button class="btn alt sm" onclick="fcDel('+i+')">🗑 Hapus kartu</button></div>'):card('<p class="mut">Belum ada kartu. Tambahkan soal pertamamu!</p>'))+card('<h3>➕ Kartu Baru</h3><input id="fq" maxlength="120" placeholder="Soal / istilah"><input id="fa" maxlength="200" placeholder="Jawaban"><button class="btn w" onclick="fcAdd()">Tambah Kartu</button>')}
+function fcMark(k){var a=fcGet(),i=(S.fi||0)%a.length;a[i].k=k;fcPut(a);S.fi=i+1;if(k)toast('Mantap, satu kartu hafal!');render()}
+function fcAdd(){var q=$('fq').value.trim(),t=$('fa').value.trim(),a=fcGet();if(!q||!t){toast('Isi soal dan jawabannya.','w');return}if(a.length>=100){toast('Maksimal 100 kartu.','w');return}a.push({q:q,a:t,k:0});fcPut(a);S.fi=a.length-1;render()}
+function fcShuf(){var a=fcGet(),i,j,t;for(i=a.length-1;i>0;i--){j=Math.floor(Math.random()*(i+1));t=a[i];a[i]=a[j];a[j]=t}fcPut(a);S.fi=0;render()}
+function fcDel(i){var a=fcGet();a.splice(i,1);fcPut(a);render()}
+function pgPatung(){var n=(S.ex&&S.ex.members.length)||36;return back()+ph('🧾','Patungan','Bagi biaya acara jadi per orang')+card('<div class="k">TOTAL BIAYA (Rp)</div><input id="pt" type="number" inputmode="numeric" min="0" placeholder="Contoh: 450000" oninput="ptCalc()"><div class="k" style="margin-top:12px">JUMLAH ORANG</div><input id="po2" type="number" inputmode="numeric" min="1" value="'+n+'" oninput="ptCalc()"><div class="k" style="margin-top:12px">PEMBULATAN</div><select id="pr" class="sel" onchange="ptCalc()"><option value="500">Ke atas Rp500</option><option value="1000" selected>Ke atas Rp1.000</option><option value="5000">Ke atas Rp5.000</option><option value="1">Tanpa pembulatan</option></select>')+card('<div id="pres"><p class="mut">Isi total biaya dulu ya.</p></div>')}
+function ptCalc(){var t=+$('pt').value,n=Math.max(1,+$('po2').value||1),r=+$('pr').value,e=$('pres');if(!(t>0)){e.innerHTML='<p class="mut">Isi total biaya dulu ya.</p>';return}var p=Math.ceil(t/n/r)*r,c=p*n;S.pt={t:t,n:n,p:p};e.innerHTML='<div class="k">PER ORANG</div><div class="v" style="font-size:30px">'+rp(p)+'</div><div class="ir"><span>Terkumpul</span><b>'+rp(c)+'</b></div><div class="ir"><span>Kelebihan (masuk kas)</span><b>'+rp(c-t)+'</b></div><button class="btn alt w" onclick="ptCopy()">📋 Salin untuk grup WA</button>'}
+function ptCopy(){var x=S.pt;if(x)kCopy('🧾 *PATUNGAN KELAS 12.8*\nTotal biaya: '+rp(x.t)+'\nPer orang: *'+rp(x.p)+'* ('+x.n+' orang)\nYuk dibayar ke bendahara 🙏')}
 function cdGet(){try{return JSON.parse(localStorage.getItem('tw_cd')||'[]')}catch(e){return S.cd||[]}}
 function cdPut(a){S.cd=a;try{localStorage.setItem('tw_cd',JSON.stringify(a))}catch(e){}}
 function pgHitung(){var a=cdGet();return back()+ph('⏳','Hitung Mundur','Ujian, lomba, atau acara pentingmu')+card('<input id="cdt" maxlength="40" placeholder="Nama acara (contoh: Ujian Sekolah)"><input id="cdd" type="date" value="'+S.dash.tgl+'"><button class="btn w" onclick="cdAdd()">Tambah</button>')+card(a.length?a.map(function(x,i){var n=dd(x.d);return '<div class="ag'+(n<0?' old':'')+'"><div class="agd"><b>'+esc(x.d.slice(8))+'</b><small>'+BLN[+x.d.slice(5,7)-1].slice(0,3).toUpperCase()+'</small></div><div style="flex:1"><b>'+esc(x.t)+'</b><div><span class="bd'+(n>=0&&n<=7?' y':'')+'">'+cdTxt(n)+'</span></div></div><button class="btn alt sm" onclick="cdDel('+i+')">🗑</button></div>'}).join(''):'<p class="mut">Belum ada. Tambahkan acara pertamamu!</p>')}
 function cdAdd(){var t=$('cdt').value.trim(),d=$('cdd').value;if(!t||!d){toast('Isi nama acara dan tanggalnya.','w');return}var a=cdGet();if(a.length>=30){toast('Maksimal 30 acara.','w');return}a.push({t:t,d:d});a.sort(function(x,y){return x.d<y.d?-1:1});cdPut(a);render()}
 function cdDel(i){var a=cdGet();a.splice(i,1);cdPut(a);render()}
-pgJel=function(){return _jl().replace('</div><div class="k" style="margin:18px 0 10px">PINTASAN','<button class="tile" onclick="go(\'koin\')"><i>🪙</i><b>Koin &amp; Dadu</b><small>Lempar koin atau dadu untuk ambil keputusan</small></button><button class="tile" onclick="go(\'hitung\')"><i>⏳</i><b>Hitung Mundur</b><small>Catat ujian atau acara, lihat sisa harinya</small></button></div><div class="k" style="margin:18px 0 10px">PINTASAN')};
-var XP={koin:pgKoin,hitung:pgHitung},_rd=render;
+pgJel=function(){return _jl().replace('</div><div class="k" style="margin:18px 0 10px">PINTASAN','<button class="tile" onclick="go(\'hafal\')"><i>🧠</i><b>Kartu Hafalan</b><small>Buat kartu soal-jawab, balik untuk cek hafalan</small></button><button class="tile" onclick="go(\'hitung\')"><i>⏳</i><b>Hitung Mundur</b><small>Catat ujian atau acara, lihat sisa harinya</small></button><button class="tile" onclick="go(\'patung\')"><i>🧾</i><b>Patungan</b><small>Bagi biaya acara kelas jadi per orang</small></button></div><div class="k" style="margin:18px 0 10px">PINTASAN')};
+var XP={hafal:pgHafal,hitung:pgHitung,patung:pgPatung},_rd=render;
 render=function(){var f=XP[S.page];if(!f||!S.dash){_rd();if(S.page==='acak')acInfo();return}try{setView(f());setLogos();tickClock()}catch(e){console.error(e);errView()}};
 if(S.page==='acak')acInfo();
 </script>
