@@ -293,7 +293,7 @@ body:after{width:420px;height:420px;bottom:-140px;left:-120px;background:radial-
 <label for="lu">Username</label><input id="lu" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
 <label for="lp">Password</label><div class="pw"><input id="lp" type="password" autocomplete="current-password"><button type="button" id="lt" aria-label="Tampilkan password">👁</button></div>
 <button class="btn w" id="lb" type="button">MASUK</button>
-<p class="slg" style="text-align:center;margin-top:16px">EIGHT ENERGY, BIG SINERGY</p><p class="ver">Versi 4.0 • 11 Okt 2026</p></div></div>
+<p class="slg" style="text-align:center;margin-top:16px">EIGHT ENERGY, BIG SINERGY</p><p class="ver">Versi 4.2 • 11 Okt 2026</p></div></div>
 
 <div id="shell" class="hidden">
 <aside id="side"></aside>
@@ -1014,6 +1014,66 @@ pgJel=function(){return _jl().replace('</div><div class="k" style="margin:18px 0
 var XP={hafal:pgHafal,hitung:pgHitung,patung:pgPatung},_rd=render;
 render=function(){var f=XP[S.page];if(!f||!S.dash){_rd();if(S.page==='acak')acInfo();return}try{setView(f());setLogos();tickClock()}catch(e){console.error(e);errView()}};
 if(S.page==='acak')acInfo();
+</script>
+
+<!-- ===== v4.2: tanggal merah, kalender libur, streak adil, animasi tambahan ===== -->
+<style>
+@keyframes bob{50%{transform:translateY(-5px)}}
+@keyframes bobs{50%{transform:translateY(-3px) rotate(10deg)}}
+@keyframes pt{to{transform:translate(var(--dx),var(--dy)) scale(.4);opacity:0}}
+@keyframes fup{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.35}100%{transform:translateY(-115vh) rotate(360deg);opacity:0}}
+@keyframes sh2{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+@keyframes mw{25%{transform:rotate(-14deg) scale(1.15)}75%{transform:rotate(14deg) scale(1.15)}}
+#fx{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}
+#fx span{position:absolute;bottom:-40px;animation:fup linear infinite}
+.sp{position:fixed;z-index:70;pointer-events:none;font-size:14px;margin:-7px 0 0 -7px;animation:pt .7s ease-out forwards}
+.tile i,.qa i{animation:bob 3s ease-in-out infinite}
+.tile:nth-child(2n) i,.qa button:nth-child(2n) i{animation-delay:-1s}.tile:nth-child(3n) i,.qa button:nth-child(3n) i{animation-delay:-2s}
+.tile:hover i,.qa button:hover i{animation:wg .6s ease}
+#bnav .ni.on i{animation:bob 2s ease-in-out infinite}
+.av2{animation:gl 2.6s ease-in-out infinite}
+.top .logo,.brand .logo{animation:bob 4s ease-in-out infinite}
+.pr i{position:relative;overflow:hidden}.pr i:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:sh2 2s linear infinite}
+.cl{animation:pop .4s ease backwards}
+.cl s{position:absolute;top:2px;right:3px;font-size:11px;text-decoration:none;animation:bobs 3.5s ease-in-out infinite}
+.cl.lb{background:rgba(var(--ac),.14)}
+.cl.tm{background:rgba(var(--ac),.18);box-shadow:inset 0 0 0 2px rgba(239,68,68,.7);color:#ef4444}
+#mc{position:fixed;right:12px;bottom:92px;z-index:20;display:flex;flex-direction:column;align-items:flex-end;gap:6px;cursor:pointer}
+#mc .mb{max-width:220px;background:var(--card);color:var(--ink);border:1.5px solid var(--b);border-radius:16px 16px 4px 16px;padding:9px 12px;font-size:13px;font-weight:600;line-height:1.4;box-shadow:var(--sh);animation:pop .3s}
+#mc .me{font-size:42px;line-height:1;animation:bob 2.4s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}#mc .me.w{animation:mw .6s ease}
+@media(min-width:900px){#mc{bottom:24px}}
+</style>
+<script>
+/* Tanggal merah 2026 (SKB 3 Menteri). Tambah baris baru di sini kalau ada libur sekolah lain. */
+var HOLI={'2026-01-01':'Tahun Baru 2026','2026-01-16':"Isra Mi'raj",'2026-02-16':'Cuti Bersama Imlek','2026-02-17':'Tahun Baru Imlek','2026-03-18':'Cuti Bersama Nyepi','2026-03-19':'Hari Suci Nyepi','2026-03-20':'Cuti Bersama Idul Fitri','2026-03-21':'Idul Fitri 1447 H','2026-03-22':'Idul Fitri 1447 H','2026-03-23':'Cuti Bersama Idul Fitri','2026-03-24':'Cuti Bersama Idul Fitri','2026-04-03':'Wafat Yesus Kristus','2026-04-05':'Paskah','2026-05-01':'Hari Buruh','2026-05-14':'Kenaikan Yesus Kristus','2026-05-15':'Cuti Bersama Kenaikan Yesus','2026-05-27':'Idul Adha 1447 H','2026-05-28':'Cuti Bersama Idul Adha','2026-05-31':'Hari Raya Waisak','2026-06-01':'Hari Lahir Pancasila','2026-06-16':'Tahun Baru Islam 1448 H','2026-08-17':'Hari Kemerdekaan RI','2026-08-25':'Maulid Nabi Muhammad SAW','2026-12-24':'Cuti Bersama Natal','2026-12-25':'Hari Raya Natal','2027-01-01':'Tahun Baru 2027'};
+LIB.Merah=[['🎌','Tanggal merah, {n}!','Hari ini libur {h}. Absen dan piket diliburkan, nikmati harinya 🎉'],['🥳','Libur bonus rasa spesial','{h} bikin hari ini bebas tugas. Istirahat yang cukup ya, {n} 😎'],['🎈','Selamat hari libur!','Rayakan {h} dengan cara terbaikmu, {n}. Absen dan piket skip dulu ✨'],['🍿','Hari libur = hari bahagia','{h} hari ini. Pas banget buat rebahan, jalan, atau bantu keluarga, {n} 💙']];
+function wdOf(t){var a=t.split('-');return new Date(Date.UTC(+a[0],+a[1]-1,+a[2])).getUTCDay()}
+function isOff(t){var w=wdOf(t);return w===0||w===6||!!HOLI[t]}
+function isWk(){return !!(S.dash&&S.dash.tgl&&isOff(S.dash.tgl))}
+function cdSenin(){var n=new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Jakarta'})),t=new Date(n),i,k;for(i=1;i<15;i++){t=new Date(n);t.setDate(n.getDate()+i);k=t.getFullYear()+'-'+('0'+(t.getMonth()+1)).slice(-2)+'-'+('0'+t.getDate()).slice(-2);if(!isOff(k))break}t.setHours(6,30,0,0);var s=Math.max(0,Math.floor((t-n)/1000)),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return (d?d+' hari ':'')+h+' jam '+m+' mnt '+s%60+' dtk'}
+function libCard(){var u=S.user,fn=String(u.nama||'').split(' ')[0],s=u.username||'',hs=0,f='',i,hn=HOLI[S.dash.tgl]||'',L=hn?LIB.Merah:LIB[S.dash.hari],h0=(hs*37+(S.lib||0)*47)%360;
+for(i=0;i<s.length;i++)hs+=s.charCodeAt(i);h0=(hs*37+(S.lib||0)*47)%360;
+var x=L[(hs+(+S.dash.tgl.slice(8))+(S.lib||0))%L.length],G=['hsl('+h0+',78%,46%)','hsl('+((h0+45)%360)+',75%,38%)'];
+['🎈','✨','☁️','🎶','🌴'].forEach(function(e,k){f+='<span class="fl" style="left:'+(6+k*21)+'%;top:'+(k%2?66:8)+'%;animation-delay:'+(k*.7)+'s">'+e+'</span>'});
+function r(t){return t.replace(/\{n\}/g,fn).replace(/\{h\}/g,hn)}
+return '<div class="lib" style="--g1:'+G[0]+';--g2:'+G[1]+'">'+f+'<div class="bigi">'+x[0]+'</div><h2>'+esc(r(x[1]))+'</h2><p>'+esc(r(x[2]))+'</p><div class="lcd">⏳ Masuk sekolah lagi: <b id="cdm">'+cdSenin()+'</b></div><div><button class="btn alt sm" onclick="S.lib=(S.lib||0)+1;render()">Pesan lain 🎲</button></div></div>'}
+function streak(){var n=0,h=S.dash.history||[],i;for(i=0;i<h.length;i++){if(h[i].tipe!=='Kehadiran'||isOff(h[i].tgl))continue;if(h[i].ket.indexOf('Hadir')===0)n++;else break}return n}
+function calCard(){var b=S.dash.tgl.split('-'),dt=new Date(+b[0],+b[1]-1+S.cmo,1),y=dt.getFullYear(),m=dt.getMonth(),mp={},pk={},hl='',c='',i,d;
+S.dash.history.forEach(function(h){if(h.tipe==='Kehadiran')mp[h.tgl]=h.ket.split(' - ')[0];else pk[h.tgl]=1});
+var off=(dt.getDay()+6)%7,n=new Date(y,m+1,0).getDate();['Sen','Sel','Rab','Kam','Jum','Sab','Min'].forEach(function(x){c+='<b>'+x+'</b>'});
+for(i=0;i<off;i++)c+='<div class="cl e"></div>';
+for(d=1;d<=n;d++){var k=y+'-'+('0'+(m+1)).slice(-2)+'-'+('0'+d).slice(-2),w=(off+d-1)%7,st=mp[k],nm=HOLI[k]||'',wk=w>=5,cl=st==='Hadir'?'g':st==='Izin'?'b':st==='Sakit'?'y':st==='Alpa'?'r':'',em=nm?'🎌':wk?(w===5?'🎈':'☀️'):'';
+c+='<div class="cl '+cl+(nm?' tm':wk?' lb':'')+(pk[k]?' p':'')+(k===S.dash.tgl?' t':'')+'" style="animation-delay:'+(d*.02)+'s">'+(em?'<s>'+em+'</s>':'')+d+'</div>';
+if(nm)hl+='<div class="nm"><span>🎌 '+d+' '+BLN[m]+'</span><b>'+esc(nm)+'</b></div>'}
+return card('<div class="srow" style="margin-bottom:0"><button class="btn alt sm" onclick="calGo(-1)">‹</button><span>'+BLN[m]+' '+y+'</span><button class="btn alt sm" onclick="calGo(1)">›</button></div><div class="cal">'+c+'</div><p class="mut" style="font-size:12px;margin-top:10px">🟩 Hadir • 🟦 Izin • 🟨 Sakit • 🟥 Alpa • 🎈☀️ akhir pekan • 🎌 tanggal merah • titik = piket. Hari libur tidak memutus hadir beruntun.</p>'+(hl?'<div style="margin-top:8px">'+hl+'</div>':''))}
+/* melayang di latar + percikan saat disentuh + maskot */
+(function(){var f=document.createElement('div'),E=['✦','⭐','📚','✏️','🎒','☁️','💙','🎈'],i;f.id='fx';for(i=0;i<14;i++){var s=document.createElement('span');s.textContent=E[i%E.length];s.style.cssText='left:'+Math.random()*96+'%;font-size:'+(14+Math.random()*16)+'px;animation-duration:'+(16+Math.random()*16)+'s;animation-delay:-'+Math.random()*24+'s';f.appendChild(s)}document.body.appendChild(f);
+document.addEventListener('pointerdown',function(e){if(/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||''))return;for(var i=0;i<6;i++){var s=document.createElement('span'),a=Math.PI*2*i/6+Math.random(),r=34+Math.random()*30;s.className='sp';s.textContent=['✨','⭐','💫','🎉'][i%4];s.style.cssText='left:'+e.clientX+'px;top:'+e.clientY+'px;--dx:'+Math.cos(a)*r+'px;--dy:'+Math.sin(a)*r+'px';document.body.appendChild(s);setTimeout(function(x){if(x.parentNode)x.parentNode.removeChild(x)},750,s)}});
+var mc=document.createElement('div');mc.id='mc';mc.innerHTML='<div class="me">🐥</div>';document.body.appendChild(mc);var tm=null;
+function msg(){var d=S.dash,n=String(S.user.nama||'').split(' ')[0],A=['Semangat, '+n+'! EIGHT ENERGY 💪','Jangan lupa minum air putih 💧','Kelas 12.8 keren, tetap kompak ya ✨','Coba Kartu Hafalan di Jelajah, seru lho 🧠','Ganti tema lewat tombol pojok kanan atas 🎨'];
+if(isWk())A=['Selamat libur, '+n+'! Istirahat dulu ya 🏖️','Hari libur: absen dan piket cuti 😎','Hari ini healing, besok gas lagi 🎶'];else if(!isT()&&d){if(d.piket&&d.piket.scheduled&&!d.piket.done)A.unshift('Hari ini giliran piketmu 🧹');if(!d.absen)A.unshift('Kamu belum absen hari ini lho 📝')}return A[Math.floor(Math.random()*A.length)]}
+function say(){if(!S.user||$('shell').classList.contains('hidden'))return;var o=mc.querySelector('.mb');if(o)o.remove();var b=document.createElement('div'),e=mc.querySelector('.me');b.className='mb';b.textContent=msg();mc.insertBefore(b,e);e.classList.remove('w');void e.offsetWidth;e.classList.add('w');clearTimeout(tm);tm=setTimeout(function(){if(b.parentNode)b.remove()},5000)}
+mc.addEventListener('click',say);setInterval(function(){var v=S.user&&!$('shell').classList.contains('hidden');mc.style.display=v?'':'none';if(v&&Math.random()<.35)say()},30000);mc.style.display='none'})();
 </script>
 
 </body></html>
