@@ -370,10 +370,10 @@ function refresh(){
  else call('getStudentDashboard',[S.user.username,S.token],'Memuat data...',function(r){S.dash=r;render()},errView);
 }
 function errView(){setView(card('<div class="err"><p>Data gagal dimuat.</p><button class="btn w" onclick="refresh()">Coba Lagi</button></div>'))}
-function go(p){S.page=p;var nv=['pol','apr','fok','acak','jpel','ingat','sar','todo'].indexOf(p)>=0?'jel':p;var a=document.querySelectorAll('.ni[data-p]');for(var i=0;i<a.length;i++)a[i].classList.toggle('on',a[i].getAttribute('data-p')===nv);if(p==='rank')loadRank();if(p==='sar')loadSar();if(EXP.indexOf(p)>=0)loadEx();if(p==='rekap')loadRecap(S.bulan);render();window.scrollTo(0,0)}
+function go(p){S.page=p;var nv=['pol','apr','fok','acak','jpel','ingat','sar','todo','game'].indexOf(p)>=0?'jel':p;var a=document.querySelectorAll('.ni[data-p]');for(var i=0;i<a.length;i++)a[i].classList.toggle('on',a[i].getAttribute('data-p')===nv);if(p==='rank')loadRank();if(p==='sar')loadSar();if(EXP.indexOf(p)>=0)loadEx();if(p==='rekap')loadRecap(S.bulan);render();window.scrollTo(0,0)}
 function render(){
  if(!S.dash){errView();return}
- try{var f={jel:pgJel,ingat:pgIngat,jpel:pgJpel,sar:pgSar,todo:pgTodo,ang:pgAng,agd:pgAgd,kas:pgKas,pol:pgPol,apr:pgApr,fok:pgFok,acak:pgAcak,rank:pgRank,rekap:pgRekap,home:pgHome,absen:pgAbsen,piket:pgPiket,jadwal:pgJadwal,riwayat:pgRiwayat,stat:pgStat,profil:pgProfil,tdash:pgTDash,mon:pgMon,tstat:pgTStat}[S.page];setView(f());setLogos();countUp();tickClock();if(S.page==='mon')drawTable();if(S.page==='ang')drawAng();if(S.page==='fok')fkDraw()}
+ try{var f={jel:pgJel,ingat:pgIngat,jpel:pgJpel,sar:pgSar,todo:pgTodo,game:pgGame,ang:pgAng,agd:pgAgd,kas:pgKas,pol:pgPol,apr:pgApr,fok:pgFok,acak:pgAcak,rank:pgRank,rekap:pgRekap,home:pgHome,absen:pgAbsen,piket:pgPiket,jadwal:pgJadwal,riwayat:pgRiwayat,stat:pgStat,profil:pgProfil,tdash:pgTDash,mon:pgMon,tstat:pgTStat}[S.page];setView(f());setLogos();countUp();tickClock();if(S.page==='mon')drawTable();if(S.page==='ang')drawAng();if(S.page==='fok')fkDraw()}
  catch(e){console.error(e);errView()}
 }
 
@@ -565,7 +565,7 @@ function needEx(){return S.ex?'':card('<p class="mut">Memuat data...</p>')}
 function back(){if(['kas','agd','ang'].indexOf(S.page)>=0)return '';return '<button class="btn alt sm" style="margin-bottom:12px" onclick="go(\'jel\')">‹ Jelajah</button>'}
 function exDone(r){S.ex=r;if(r.msg)toast(r.msg);render()}
 function twoTap(el,fn){if(el.getAttribute('data-c')!=='1'){el.setAttribute('data-c','1');var o=el.textContent;el.textContent='Yakin?';setTimeout(function(){el.setAttribute('data-c','0');el.textContent=o},2500);return}fn()}
-function pgJel(){var T=[['👥','Anggota Kelas','Kenalan dan lihat jadwal piket teman','ang'],['📅','Agenda & Tugas','Diisi sekretaris kelas','agd'],['💰','Kas Kelas','Tabel iuran, rekap, dan statusmu','kas'],['🗳️','Polling Kelas','Dibuka wali kelas & pengurus','pol'],['💌','Dinding Apresiasi','Kirim kata baik untuk teman','apr'],['⏱️','Fokus Belajar','Timer pomodoro dan hitung sesi','fok'],['🎲','Pengacak','Pilih nama acak dan bagi kelompok','acak'],['📚','Jadwal Pelajaran','Mapel Senin – Jumat','jpel'],['🔔','Pengingat','Besok belajar apa & tugas terdekat','ingat'],['📮','Kotak Saran',isT()?'Baca masukan dari siswa':'Sebulan sekali, nama tidak tampil','sar'],['📝','To-Do Pribadi','Catat tugasmu, tersimpan di perangkat','todo']];
+function pgJel(){var T=[['🎮','Pabrik Energi 8','Game santai: terus jalan walau ditinggal','game'],['👥','Anggota Kelas','Kenalan dan lihat jadwal piket teman','ang'],['📅','Agenda & Tugas','Diisi sekretaris kelas','agd'],['💰','Kas Kelas','Tabel iuran, rekap, dan statusmu','kas'],['🗳️','Polling Kelas','Dibuka wali kelas & pengurus','pol'],['💌','Dinding Apresiasi','Kirim kata baik untuk teman','apr'],['⏱️','Fokus Belajar','Timer pomodoro dan hitung sesi','fok'],['🎲','Pengacak','Pilih nama acak dan bagi kelompok','acak'],['📚','Jadwal Pelajaran','Mapel Senin – Jumat','jpel'],['🔔','Pengingat','Besok belajar apa & tugas terdekat','ingat'],['📮','Kotak Saran',isT()?'Baca masukan dari siswa':'Sebulan sekali, nama tidak tampil','sar'],['📝','To-Do Pribadi','Catat tugasmu, tersimpan di perangkat','todo']];
  if(isT())T=T.filter(function(x){return['ang','agd','kas','pol','apr','jpel','sar'].indexOf(x[3])>=0});
  var R=isT()?[['📊','Statistik Kelas','Ringkasan kelas hari ini','tstat'],['🗓️','Rekap Bulanan','Rekap per siswa','rekap'],['🏆','Peringkat','Siswa paling rajin','rank']]:[['📅','Jadwal Piket','Jadwal 5 hari','jadwal'],['🕘','Riwayat','Kalender dan jejak','riwayat'],['📊','Statistik','Level dan lencana','stat'],['🏆','Peringkat','Kelas paling rajin','rank']];
  function tl(a){return a.map(function(x,i){return '<button class="tile" style="animation-delay:'+(i*.05)+'s" onclick="go(\''+x[3]+'\')"><i>'+x[0]+'</i><b>'+x[1]+'</b><small>'+x[2]+'</small></button>'}).join('')}
@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded',function(){
  $('modal').addEventListener('click',function(e){if(e.target===this)closeM()});
  var t0=Date.now(),tk=null;try{tk=localStorage.getItem('tw_tk')}catch(e){}
   if(!tk){setTimeout(showLogin,1800)}else{
-   var fin=function(f){setTimeout(f,Math.max(0,1200-(Date.now()-t0)))},bd=false;
+   var fin=function(f){setTimeout(f,Math.max(0,450-(Date.now()-t0)))},bd=false;
    try{google.script.run.withSuccessHandler(function(r){if(bd)return;bd=true;fin(function(){if(r&&r.ok){S.user=r.user;S.token=r.token;S.dash=r.dash;$('splash').classList.add('hidden');enter()}else{try{localStorage.removeItem('tw_tk')}catch(e){}showLogin()}})}).withFailureHandler(function(){if(bd)return;bd=true;fin(showLogin)}).restoreSession(tk)}catch(e){bd=true;showLogin()}
    setTimeout(function(){if(!bd){bd=true;showLogin()}},25000)}
 });
@@ -1100,6 +1100,125 @@ S.rpT=setInterval(function(){if(!p.parentNode){clearInterval(S.rpT);return}p.tex
 var _r2=render;render=function(){_r2();decor()};
 document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){var tk=document.querySelector('.tick>div');if(tk){var x=['✦ EIGHT ENERGY, BIG SINERGY ✦ 12.8 SMAN 1 KOTA SUKABUMI'].concat(PHR).join(' ✦ ').toUpperCase()+' ✦ ';tk.innerHTML='<span>'+x+'</span><span>'+x+'</span>';tk.style.animationDuration=Math.round(x.length/5)+'s'}
 var f=$('fx');if(f)for(var i=0;i<2;i++){var s=document.createElement('i');s.style.cssText='top:'+(6+i*22)+'%;animation-delay:'+(i*4.5)+'s';f.appendChild(s)}},0)});
+</script>
+
+<!-- ===== v5.0: game Pabrik Energi 8, animasi, loading cepat, perbaikan notif ===== -->
+<style>
+@keyframes gpl{50%{box-shadow:0 0 0 18px rgba(var(--ac),0),0 14px 44px rgba(var(--ac),.55)}}
+@keyframes gfl{to{transform:translateY(-90px) scale(1.3);opacity:0}}
+@keyframes gsp{0%,100%{transform:scale(1) rotate(-8deg)}50%{transform:scale(1.25) rotate(8deg)}}
+@keyframes rpl{to{transform:scale(1);opacity:0}}.btn,.chip{position:relative;overflow:hidden}
+@keyframes pgin{from{opacity:0;transform:translateY(12px) scale(.985)}}
+/* transisi halaman + sentuhan animasi */
+#view.pg>*{animation:pgin .38s cubic-bezier(.2,.8,.2,1) backwards}
+#view.pg>*:nth-child(2){animation-delay:.05s}#view.pg>*:nth-child(3){animation-delay:.1s}#view.pg>*:nth-child(4){animation-delay:.15s}#view.pg>*:nth-child(n+5){animation-delay:.2s}
+.card,.tile,.btn,.ni{transition:transform .18s,box-shadow .2s}.card:active,.tile:active{transform:scale(.98)}.btn:active,.ni:active{transform:scale(.94)}
+@media(hover:hover){.tile:hover,.card:hover{transform:translateY(-2px)}}
+.rpl{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rpl .55s ease-out forwards;pointer-events:none}
+.tile,.ni{position:relative;overflow:hidden}
+/* game */
+#gm{position:relative;text-align:center;-webkit-user-select:none;user-select:none}
+.gtop{display:flex;justify-content:space-between;gap:8px;align-items:flex-end;text-align:left}
+.gtop b{font-size:30px;line-height:1.1;display:block}.gtop small{color:var(--mut);font-size:12px}
+.gorb{position:relative;width:min(46vw,180px);aspect-ratio:1;border-radius:50%;margin:16px auto 6px;display:grid;place-items:center;font-size:76px;cursor:pointer;touch-action:manipulation;background:radial-gradient(circle at 34% 28%,rgba(255,255,255,.55),transparent 42%),linear-gradient(135deg,var(--b),var(--l));box-shadow:0 14px 40px rgba(var(--ac),.4);animation:gpl 2.4s ease-in-out infinite;transition:transform .08s}
+.gorb:active{transform:scale(.92)}
+.gfl{position:absolute;left:50%;top:30%;font-weight:800;font-size:20px;color:#ffe27a;text-shadow:0 2px 6px rgba(0,0,0,.5);pointer-events:none;animation:gfl .8s ease-out forwards}
+.gcb{height:20px;font-size:13px;font-weight:700;color:var(--b)}
+.gl{display:grid;gap:8px;margin-top:10px;text-align:left}@media(min-width:700px){.gl{grid-template-columns:1fr 1fr}}
+.gi{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;border:1.5px solid var(--ln);background:rgba(127,127,160,.07);transition:.2s}
+.gi i{font-style:normal;font-size:28px;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:rgba(var(--ac),.16)}
+.gi div{flex:1;min-width:0;font-size:12px;color:var(--mut)}.gi div b{display:block;font-size:14px;color:inherit}
+.gi button{border:0;border-radius:12px;padding:9px 10px;font-weight:700;font-size:12.5px;color:#fff;background:linear-gradient(135deg,var(--b),var(--l));min-width:84px;transition:.15s}
+.gi.off{opacity:.55}.gi.off button{background:rgba(127,127,160,.4)}.gi:not(.off){border-color:var(--b)}
+.gsp{position:absolute;z-index:5;font-size:42px;background:none;border:0;animation:gsp 1s ease-in-out infinite;filter:drop-shadow(0 0 12px #ffd84d)}
+.gov{position:fixed;inset:0;z-index:70;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);animation:fi .25s}
+.gov>div{max-width:340px;width:100%;text-align:center;animation:pop .4s cubic-bezier(.2,.9,.3,1.2)}
+</style>
+<script>
+/* ---- 1. Loading: overlay baru muncul kalau proses > 0,6 detik (tidak berkedip) ---- */
+(function(){var o=load,T=0;load=function(t){clearTimeout(T);if(t)T=setTimeout(function(){o(t)},600);else o()}})();
+var _sp=document.createElement('link');_sp.rel='preconnect';_sp.href='https://script.google.com';document.head.appendChild(_sp);
+
+/* ---- 2. Buka instan: pakai data tersimpan, lalu segarkan di belakang layar ---- */
+(function(){var R=google.script.run;
+ function bg(r){if(r&&r.ok){S.user=r.user;S.token=r.token;S.dash=r.dash;if(S.page==='home'||S.page==='tdash')render()}
+  else if(r&&/Sesi berakhir|tidak aktif/.test(r.msg||'')){try{localStorage.removeItem('tw_rs');localStorage.removeItem('tw_tk')}catch(e){}showLogin()}}
+ function mk(ok,fail){return new Proxy({},{get:function(_,k){
+  if(k==='withSuccessHandler')return function(f){return mk(f,fail)};
+  if(k==='withFailureHandler')return function(f){return mk(ok,f)};
+  return function(){var a=[].slice.call(arguments),c=null;
+   if(k==='restoreSession'&&ok){try{c=JSON.parse(localStorage.getItem('tw_rs'));if(!c||c.token!==a[0])c=null}catch(e){}}
+   var h=R.withSuccessHandler(function(r){
+    if(r&&r.ok&&(k==='restoreSession'||k==='loginUser')){try{localStorage.setItem('tw_rs',JSON.stringify(r))}catch(e){}}
+    if(c)bg(r);else if(ok)ok(r)}).withFailureHandler(function(e){if(!c&&fail)fail(e)});
+   if(c)setTimeout(function(){ok(c)},0);
+   h[k].apply(h,a)}}})}
+ window.google.script.run=mk(null,null);
+ var lo=logout;logout=function(){try{localStorage.removeItem('tw_rs')}catch(e){}lo()};
+ document.addEventListener('visibilitychange',function(){if(document.hidden||!S.token||!S.user)return;
+  var n=Date.now();if(n-(S.vt||0)<60000)return;S.vt=n;
+  try{google.script.run.withSuccessHandler(function(r){if(r&&r.ok&&(S.page==='home'||S.page==='tdash')){S.dash=r;render()}}).withFailureHandler(function(){})[S.user.role==='teacher'?'getTeacherDashboard':'getStudentDashboard'].apply(null,S.user.role==='teacher'?[S.token]:[S.user.username,S.token])}catch(e){}
+  ntSync()})})();
+
+/* ---- 3. Notifikasi: daftar ulang token otomatis + tampil saat aplikasi sedang dibuka ---- */
+ntActive=function(){return ntOK()&&Notification.permission==='granted'};
+(function(){var o=ntToken;ntToken=function(cb,fail){o(function(t){
+  try{if(!window.__fgm){window.__fgm=1;firebase.messaging().onMessage(function(p){var n=p.notification||p.data||{};toast((n.title||'Notifikasi')+' '+(n.body||''));
+   navigator.serviceWorker.ready.then(function(r){r.showNotification(n.title||'TWELVOLNA',{body:n.body||'',icon:'icon-192.png',tag:'fg'+Date.now()})}).catch(function(){})})}}catch(e){}
+  try{localStorage.setItem('tw_nt','1');localStorage.setItem('tw_ntt',String(Date.now()))}catch(e){}cb(t)},fail)}})();
+function ntSync(){var t=0;try{t=+localStorage.getItem('tw_ntt')||0}catch(e){}if(Date.now()-t>4*3600*1000)ntAuto()}
+(function(){var e0=enter;enter=function(){e0.apply(this,arguments);if(ntOK()&&Notification.permission==='default')setTimeout(function(){toast('Aktifkan notifikasi di menu Profil biar piket & tugas tidak kelewat 🔔')},5000)}})();
+
+/* ---- 4. Animasi halaman + ripple ---- */
+(function(){var g=go;go=function(p){var v=$('view');if(v){v.classList.add('pg');clearTimeout(S.pgT);S.pgT=setTimeout(function(){v.classList.remove('pg')},700)}g(p)}})();
+document.addEventListener('pointerdown',function(e){var t=e.target.closest&&e.target.closest('.btn,.tile,.ni,.chip');if(!t)return;
+ var r=t.getBoundingClientRect(),d=Math.max(r.width,r.height)*2,x=document.createElement('span');x.className='rpl';
+ x.style.cssText='left:'+(e.clientX-r.left)+'px;top:'+(e.clientY-r.top)+'px;width:'+d+'px;height:'+d+'px;margin:'+(-d/2)+'px 0 0 '+(-d/2)+'px';t.appendChild(x);setTimeout(function(){x.remove()},600)},{passive:true});
+
+/* ---- 5. GAME: Pabrik Energi 8 (terus jalan walau ditinggal, maks 8 jam) ---- */
+var GN=[['Dinamo Kelas','🔋',15,.2],['Sepeda Listrik','🚲',100,1],['Kipas Piket','🧹',650,6],['Panel Surya','☀️',4e3,25],['Turbin Lapangan','🌪️',25e3,100],['Reaktor 12.8','⚛️',15e4,450],['Portal Sinergi','🌌',9e5,2e3],['Bintang Mini','⭐',6e6,9e3]];
+var GM=null,GK='',GT=0,GS=0,GS2=0,GC={n:0,t:0};
+function gf(x){x=Math.floor(x);if(x<1e3)return''+x;var u=['K','M','B','T','Qa'],i=-1;while(x>=1e3&&i<4){x/=1e3;i++}return(x<10?x.toFixed(2):x<100?x.toFixed(1):Math.floor(x))+u[i]}
+function gr(x){return x<10?x.toFixed(1):gf(x)}
+function gMul(){return 1+GM.st*.1}
+function gCps(){var s=0;for(var i=0;i<8;i++)s+=GM.n[i]*GN[i][3];return s*gMul()}
+function gTp(){return((1+GM.tl)+gCps()*.02)*(1+Math.min(GC.n,50)/25)}
+function gCost(i){return Math.ceil(GN[i][2]*Math.pow(1.15,GM.n[i]))}
+function gTc(){return Math.ceil(50*Math.pow(1.6,GM.tl))}
+function gPot(){return Math.floor(Math.sqrt(GM.life/1e4))}
+function gSave(){if(GM)try{localStorage.setItem(GK,JSON.stringify(GM))}catch(e){}}
+function gLoad(){var k='tw_gm_'+S.user.username;if(!GM||GK!==k){GK=k;GM=null;try{GM=JSON.parse(localStorage.getItem(k))}catch(e){}
+  if(!GM||!GM.n)GM={e:0,life:0,n:[0,0,0,0,0,0,0,0],tl:0,st:0,t:Date.now(),day:'',streak:0}}
+ var now=Date.now(),sec=Math.max(0,Math.min((now-GM.t)/1000,28800)),gain=gCps()*sec;GM.e+=gain;GM.life+=gain;GM.t=now;
+ var td=new Date().toISOString().slice(0,10),bonus=0;
+ if(GM.day!==td){var y=new Date(Date.now()-864e5).toISOString().slice(0,10);GM.streak=GM.day===y?GM.streak+1:1;GM.day=td;bonus=Math.max(100,gCps()*600)*Math.min(GM.streak,7);GM.e+=bonus;GM.life+=bonus}
+ gSave();return{sec:sec,gain:gain,bonus:bonus}}
+function pgGame(){return ph('🎮','Pabrik Energi 8','Jalan terus walau ditinggal')+card('<div id="gm"><div class="gtop"><div><small>ENERGI</small><b id="ge">0</b></div><div style="text-align:right"><small>PER DETIK</small><b id="gc" style="font-size:20px">0</b><small id="gs"></small></div></div>'+
+ '<div class="gorb" id="go" onpointerdown="gTap(event)">⚡</div><div class="gcb" id="gcb"></div>'+
+ '<button class="btn w" id="gt" onclick="gTapUp()" type="button"></button><div class="gl" id="gl"></div>'+
+ '<button class="btn alt w" id="gr" type="button" style="margin-top:12px" onclick="twoTap(this,gReboot)"></button>'+
+ '<p class="mut" style="font-size:12px;margin-top:10px;line-height:1.5">Tinggalkan pabrik, energi tetap dikumpulkan sampai 8 jam. Datang lagi tiap hari untuk bonus beruntun 🔥 dan tangkap ⚡ emas yang muncul!</p></div>')}
+function gList(){var h='';GN.forEach(function(g,i){h+='<div class="gi" id="gi'+i+'"><i>'+g[1]+'</i><div><b>'+g[0]+' <span style="color:var(--b)">×'+GM.n[i]+'</span></b>+'+gr(g[3]*gMul())+'/dtk</div><button type="button" onclick="gBuy('+i+')">⚡ '+gf(gCost(i))+'</button></div>'});$('gl').innerHTML=h}
+function gUI(){if(!$('gm'))return;$('ge').textContent=gf(GM.e);$('gc').textContent=gr(gCps());$('gs').textContent=GM.st?'⭐ '+GM.st+' (+'+GM.st*10+'%)':'';
+ $('gt').textContent='👆 Kekuatan ketuk Lv.'+(GM.tl+1)+' – ⚡ '+gf(gTc());$('gt').style.opacity=GM.e>=gTc()?1:.55;
+ for(var i=0;i<8;i++){var e=$('gi'+i);if(e)e.classList.toggle('off',GM.e<gCost(i))}
+ var p=gPot(),r=$('gr');r.textContent=p>=2?'🔄 Reboot pabrik: +'+p+' ⭐ (tiap ⭐ = +10% produksi)':'🔒 Reboot terbuka di ±50K energi total ('+gf(GM.life)+')';r.style.opacity=p>=2?1:.55}
+function gTap(e){if(!GM)return;var now=Date.now();GC.n=now-GC.t<450?GC.n+1:1;GC.t=now;var v=gTp();GM.e+=v;GM.life+=v;GM.t=now;
+ var o=$('go'),f=document.createElement('div'),r=o.getBoundingClientRect();f.className='gfl';f.textContent='+'+gf(v);f.style.left=(e.clientX-r.left-10+Math.random()*20-10)+'px';f.style.top=(e.clientY-r.top-20)+'px';o.appendChild(f);setTimeout(function(){f.remove()},800);
+ $('gcb').textContent=GC.n>=5?'🔥 Combo x'+(1+Math.min(GC.n,50)/25).toFixed(1):'';if(navigator.vibrate)navigator.vibrate(6);gUI()}
+function gTapUp(){var c=gTc();if(GM.e<c){toast('Energi belum cukup','w');return}GM.e-=c;GM.tl++;gUI();gSave();toast('Kekuatan ketuk naik!')}
+function gBuy(i){var c=gCost(i);if(GM.e<c){toast('Energi belum cukup','w');return}GM.e-=c;GM.n[i]++;gList();gUI();gSave();if(GM.n[i]%10===0){confetti();toast(GN[i][0]+' mencapai '+GM.n[i]+'!')}}
+function gReboot(){var p=gPot();if(p<2)return;GM.st+=p;GM.e=0;GM.life=0;GM.n=[0,0,0,0,0,0,0,0];GM.tl=0;gList();gUI();gSave();confetti();toast('Reboot sukses! +'+p+' ⭐')}
+function gOv(h){var o=document.createElement('div');o.className='gov';o.innerHTML='<div class="card">'+h+'<button class="btn w" style="margin-top:14px" type="button">Lanjut main 🚀</button></div>';o.onclick=function(e){if(e.target===o||e.target.tagName==='BUTTON')o.remove()};document.body.appendChild(o)}
+function gSpark(){clearTimeout(GS);GS=setTimeout(function(){var m=$('gm');if(!m){return}
+  var b=document.createElement('button');b.className='gsp';b.type='button';b.textContent='⚡';b.style.left=(8+Math.random()*78)+'%';b.style.top=(25+Math.random()*50)+'%';
+  b.onpointerdown=function(){var v=Math.max(gCps()*45,gTp()*25);GM.e+=v;GM.life+=v;b.remove();confetti();toast('⚡ Emas! +'+gf(v));gUI()};m.appendChild(b);setTimeout(function(){b.remove()},9000);gSpark()},25000+Math.random()*30000)}
+function gTick(){if(!$('gm')){clearInterval(GT);GT=0;clearTimeout(GS);gSave();return}var n=Date.now(),g=gCps()*Math.min((n-GM.t)/1000,28800);GM.e+=g;GM.life+=g;GM.t=n;gUI();if(n-(GC.t||0)>900&&GC.n){GC.n=0;$('gcb').textContent=''}if(++GS2%25===0)gSave()}
+function gMount(){var r=gLoad();gList();gUI();clearInterval(GT);GT=setInterval(gTick,200);gSpark();
+ if(r.sec>30&&r.gain>0)gOv('<div style="font-size:54px">🏭</div><h3>Selamat datang kembali!</h3><p class="mut" style="margin-top:6px">Pabrikmu terus bekerja saat kamu pergi</p><h2 style="margin:10px 0">+⚡ '+gf(r.gain)+'</h2>'+(r.bonus?'<p>🔥 Bonus harian hari ke-'+GM.streak+': +⚡ '+gf(r.bonus)+'</p>':''));
+ else if(r.bonus)gOv('<div style="font-size:54px">🔥</div><h3>Bonus harian hari ke-'+GM.streak+'</h3><h2 style="margin:10px 0">+⚡ '+gf(r.bonus)+'</h2><p class="mut">Main tiap hari, bonus makin besar (sampai hari ke-7)</p>')}
+document.addEventListener('visibilitychange',function(){if(document.hidden)gSave();else if(S.page==='game'&&GM)gMount()});window.addEventListener('pagehide',gSave);
+(function(){var r=render;render=function(){r();if(S.page==='game')gMount()}})();
 </script>
 
 </body></html>
