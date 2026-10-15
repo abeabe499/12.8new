@@ -293,7 +293,7 @@ body:after{width:420px;height:420px;bottom:-140px;left:-120px;background:radial-
 <label for="lu">Username</label><input id="lu" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false">
 <label for="lp">Password</label><div class="pw"><input id="lp" type="password" autocomplete="current-password"><button type="button" id="lt" aria-label="Tampilkan password">👁</button></div>
 <button class="btn w" id="lb" type="button">MASUK</button>
-<p class="slg" style="text-align:center;margin-top:16px">EIGHT ENERGY, BIG SINERGY</p><p class="ver">Versi 4.2 • 11 Okt 2026</p></div></div>
+<p class="slg" style="text-align:center;margin-top:16px">EIGHT ENERGY, BIG SINERGY</p><p class="ver">Versi 4.3 • 14 Okt 2026</p></div></div>
 
 <div id="shell" class="hidden">
 <aside id="side"></aside>
@@ -1070,10 +1070,36 @@ return card('<div class="srow" style="margin-bottom:0"><button class="btn alt sm
 (function(){var f=document.createElement('div'),E=['✦','⭐','📚','✏️','🎒','☁️','💙','🎈'],i;f.id='fx';for(i=0;i<14;i++){var s=document.createElement('span');s.textContent=E[i%E.length];s.style.cssText='left:'+Math.random()*96+'%;font-size:'+(14+Math.random()*16)+'px;animation-duration:'+(16+Math.random()*16)+'s;animation-delay:-'+Math.random()*24+'s';f.appendChild(s)}document.body.appendChild(f);
 document.addEventListener('pointerdown',function(e){if(/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||''))return;for(var i=0;i<6;i++){var s=document.createElement('span'),a=Math.PI*2*i/6+Math.random(),r=34+Math.random()*30;s.className='sp';s.textContent=['✨','⭐','💫','🎉'][i%4];s.style.cssText='left:'+e.clientX+'px;top:'+e.clientY+'px;--dx:'+Math.cos(a)*r+'px;--dy:'+Math.sin(a)*r+'px';document.body.appendChild(s);setTimeout(function(x){if(x.parentNode)x.parentNode.removeChild(x)},750,s)}});
 var mc=document.createElement('div');mc.id='mc';mc.innerHTML='<div class="me">🐥</div>';document.body.appendChild(mc);var tm=null;
-function msg(){var d=S.dash,n=String(S.user.nama||'').split(' ')[0],A=['Semangat, '+n+'! EIGHT ENERGY 💪','Jangan lupa minum air putih 💧','Kelas 12.8 keren, tetap kompak ya ✨','Coba Kartu Hafalan di Jelajah, seru lho 🧠','Ganti tema lewat tombol pojok kanan atas 🎨'];
+function msg(){var d=S.dash,n=String(S.user.nama||'').split(' ')[0],A=['Semangat, '+n+'! EIGHT ENERGY 💪','Jangan lupa minum air putih 💧','Kelas 12.8 keren, tetap kompak ya ✨','Coba Kartu Hafalan di Jelajah, seru lho 🧠','Ganti tema lewat tombol pojok kanan atas 🎨','Jangan lupa cek Agenda biar nggak kaget ada tugas 📝','Mau main? Coba Pengacak Nama di Jelajah 🎰','Ketuk sapaan di Home buat ganti kalimatnya 😄',sapa()+', '+n+'! ☕',(streak()>1?'Hadir beruntun kamu '+streak()+' hari, mantap 🔥':'Yuk bangun streak hadir beruntun 🔥'),({Senin:'Senin semangat! Awal pekan, awal prestasi 🚀',Jumat:'Jumat berkah, tinggal sedikit lagi libur 😎'})[d&&d.hari]||'Terus melangkah, 12.8! 🌈'];
 if(isWk())A=['Selamat libur, '+n+'! Istirahat dulu ya 🏖️','Hari libur: absen dan piket cuti 😎','Hari ini healing, besok gas lagi 🎶'];else if(!isT()&&d){if(d.piket&&d.piket.scheduled&&!d.piket.done)A.unshift('Hari ini giliran piketmu 🧹');if(!d.absen)A.unshift('Kamu belum absen hari ini lho 📝')}return A[Math.floor(Math.random()*A.length)]}
 function say(){if(!S.user||$('shell').classList.contains('hidden'))return;var o=mc.querySelector('.mb');if(o)o.remove();var b=document.createElement('div'),e=mc.querySelector('.me');b.className='mb';b.textContent=msg();mc.insertBefore(b,e);e.classList.remove('w');void e.offsetWidth;e.classList.add('w');clearTimeout(tm);tm=setTimeout(function(){if(b.parentNode)b.remove()},5000)}
 mc.addEventListener('click',say);setInterval(function(){var v=S.user&&!$('shell').classList.contains('hidden');mc.style.display=v?'':'none';if(v&&Math.random()<.35)say()},30000);mc.style.display='none'})();
+</script>
+
+<!-- ===== v4.3: rapi di HP, kalimat berganti-ganti, animasi tambahan ===== -->
+<style>
+.cal{grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.cal>*,.grid>*,.tiles>*,.kl>*,.row>*,.chips>*,.g2>*,.card{min-width:0}
+main{overflow-x:clip}#view{overflow-wrap:break-word}
+.cl{font-size:13px}.cl.t{animation:pop .4s ease backwards,gl 2s ease-in-out .6s infinite}
+.hero .rp{font-size:12.5px;opacity:.95;margin-top:6px;min-height:1.3em}
+.hero .rp:after{content:"▌";margin-left:2px;animation:cur 1s steps(1) infinite}
+@keyframes cur{50%{opacity:0}}
+@keyframes ssm{0%{transform:translate(0,0) rotate(25deg);opacity:0}4%{opacity:.9}12%{transform:translate(120vw,56vw) rotate(25deg);opacity:0}100%{opacity:0}}
+#fx i{position:absolute;left:-10%;width:90px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#fff);animation:ssm 9s linear infinite}
+#bnav .ni:active i{animation:wg .5s ease}
+.hero h2[onclick]{cursor:pointer}
+@media(max-width:600px){#mc .me{font-size:36px}#mc{bottom:96px;opacity:.95}}
+</style>
+<script>
+var PHR=['Hari ini kamu juga keren, tinggal dibuktiin 😎','Absen dulu, rebahan belakangan ✅','Kelas 12.8: kompak, bukan kompakan nyontek 😂','Satu langkah kecil tiap hari, lulus dengan bangga 🎓','Pelan-pelan asal hadir, jangan hilang kayak sinyal 📶','Piket itu ibadah kecil, kelas bersih hati senang 🧹','Kalau capek, istirahat. Bukan menyerah 💙','Tugas numpuk? Bagi jadi kecil-kecil, pasti kelar 📚','Hadir itu keren, telat itu manusiawi 😅','Ilmu itu investasi yang nggak kena resesi 📈','Semangat! Kopi boleh, panik jangan ☕','Kelas hebat dibangun dari kebiasaan kecil 🧱','Kamu lebih dekat ke kelulusan daripada kemarin 🚀','Yang konsisten menang dari yang motivasinya musiman 🔥','Teman baik adalah bonus terbaik tahun terakhir SMA 💫','Sinergi itu kalau semua gerak, bukan cuma grup WA-nya 💬','Nilai bisa dikejar, kenangan nggak bisa diulang 📸','Hari ini boleh capek, besok tetap gas 💪','Senyum dulu, baru buka tugas 😄','Eight Energy aktif, baterai penuh ⚡'];
+var GR=['Halo, {n}! Siap gas hari ini? 🚀','Eh ada {n}! Semangat ya 💙','Selamat datang, {n} 👋','{n} sudah hadir, kelas makin lengkap ✨','Yuk mulai harimu, {n}! 💪','Hai {n}, hari ini bakal seru nih 🎉','Welcome back, {n}! Eight Energy on ⚡','{n}, kamu keren, jangan lupa istirahat 🌟'];
+S.gr0=Math.floor(Math.random()*GR.length);
+var _h1=pgHome0;pgHome0=function(){var fn=String(S.user.nama||'').split(' ')[0],g=GR[(S.gr0+(S.gr||0))%GR.length].replace('{n}',fn);return _h1().replace(/<h2>Selamat datang, [^<]*<\/h2>/,'<h2 onclick="S.gr=(S.gr||0)+1;render()" title="Ketuk untuk ganti sapaan">'+esc(g)+'</h2>')};
+function decor(){clearInterval(S.rpT);var h=document.querySelector('#view .hero.ph>div:first-child');if(!h||h.querySelector('.rp'))return;var p=document.createElement('p'),A=Array.from(PHR[Math.floor(Math.random()*PHR.length)]),i=0;p.className='rp';h.appendChild(p);
+S.rpT=setInterval(function(){if(!p.parentNode){clearInterval(S.rpT);return}p.textContent=A.slice(0,++i).join('');if(i>=A.length)clearInterval(S.rpT)},30)}
+var _r2=render;render=function(){_r2();decor()};
+document.addEventListener('DOMContentLoaded',function(){setTimeout(function(){var tk=document.querySelector('.tick>div');if(tk){var x=['✦ EIGHT ENERGY, BIG SINERGY ✦ 12.8 SMAN 1 KOTA SUKABUMI'].concat(PHR).join(' ✦ ').toUpperCase()+' ✦ ';tk.innerHTML='<span>'+x+'</span><span>'+x+'</span>';tk.style.animationDuration=Math.round(x.length/5)+'s'}
+var f=$('fx');if(f)for(var i=0;i<2;i++){var s=document.createElement('i');s.style.cssText='top:'+(6+i*22)+'%;animation-delay:'+(i*4.5)+'s';f.appendChild(s)}},0)});
 </script>
 
 </body></html>
